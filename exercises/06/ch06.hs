@@ -99,3 +99,41 @@ elem' _ []     = False
 elem' y (x:xs)
   | x == y     = True
   | otherwise  = elem' y xs
+
+
+-- Ex. 7
+merge :: Ord a => [a] -> [a] -> [a]
+merge (x:xs) (y:ys)
+  | x < y     = x : merge xs     (y:ys)
+  | otherwise = y : merge (x:xs) ys
+merge xs [] = xs
+merge [] ys = ys
+
+
+-- Ex. 8
+msort :: Ord a => [a] -> [a]
+msort [x] = [x]
+msort []  = []
+msort xs  = merge (msort left) (msort right)
+  where (left, right) = halve xs
+
+halve :: [a] -> ([a], [a])
+halve xs = (take h xs, drop h xs)
+  where h = length xs `div` 2
+
+
+-- Ex. 9
+sum' :: Num a => [a] -> a
+sum' [x]    = x
+sum' []     = 0
+sum' (x:xs) = x + sum' xs
+
+take' :: Int -> [a] -> [a]
+take' 0  _     = []
+take' _ []     = []
+take' n (x:xs) = x: take' (n-1) xs
+
+last' :: [a] -> a
+last' []     = error "empty list"
+last' [x]    = x
+last' (_:xs) = last' xs
